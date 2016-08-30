@@ -1,14 +1,14 @@
-#define ALLOCSIZE 10000
+#define	ALLOCSIZE	10000 /* size of available space */
 
 static char allocbuf[ALLOCSIZE]; /* storage for alloc */
 static char *allocp = allocbuf; /* next free position */
 
-char *alloc( int n ) /* return pointer to n character */
+char *alloc( int n )	/* return pointer to n characters */
 {
-	if( allocbuf + ALLOCSIZE - allocp >= n )
+	if (allocbuf + ALLOCSIZE - allocp >= n )
 	{
 		allocp += n;
-		return allocp - n; /* old p */
+		return allocp - n;
 	}
 	else
 		return 0;
@@ -16,6 +16,6 @@ char *alloc( int n ) /* return pointer to n character */
 
 void afree( char *p )
 {
-	if ( p >= allocbuf && p < allocbuf + ALLOCSIZE )
+	if( p >= allocbuf && p < allocbuf + ALLOCSIZE )
 		allocp = p;
 }	
