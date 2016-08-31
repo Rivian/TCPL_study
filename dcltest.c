@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
+#include "rpolish.h"
 
 #define MAXTOKEN 100
 
@@ -49,14 +50,14 @@ int gettoken( void )
 		else
 		{
 			ungetch( c );
-			return tokentype = '(');
+			return tokentype = '(';
 		}
 	}
 	else if( c == '[' )
 	{
 		for( *p++ = c; (*p++ = getch()) != ']'; )
 			;
-		*p = '\0'
+		*p = '\0';
 		return tokentype = BRACKETS;
 	}
 	else if( isalpha(c) )
@@ -69,4 +70,44 @@ int gettoken( void )
 	}
 	else
 		return tokentype = c;
+}
+
+/* dcl : parse a declarator */
+void dcl( void )
+{
+	int ns;
+
+	for( ns = 0; gettoken() == '*'; ) /* count *'s */
+		ns++;
+
+	dirdcl();
+	while( ns-- > 0 )
+		strcat( out, " pointer to " );
+}
+
+/* dirdcl : parse a direct declarator */
+void dirdcl( void )
+{
+	int type;
+
+	if( tokentype == '(' )	/* dcl */
+	{
+		dcl();
+		if( tokentype != ')' )
+			printf("error : missing )\n");
+	}
+	else if( tokentype == NAME )	/* variable name */
+		strcpy( name, token );
+	else
+		printf("error : expected name or (dcl)\n");
+
+	while( (type=gettoken()) == PARENS || type == BRACKETS )
+		if( type == PARENS )
+			strcat( out, " function returning " );
+		else
+		{
+			strcat( out, " array");
+			strcat( out, token );
+			strcat( out, " of");
+		}
 }
