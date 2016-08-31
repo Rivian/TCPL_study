@@ -5,6 +5,7 @@
 #define	REVERSE		2
 #define IGNORE		4
 #define	DIR		8
+#define FIELD		16
 
 char *lineptr[MAXLINES];
 
@@ -44,6 +45,9 @@ main(int argc, char *argv[])
 					break;
 				case 'd' :
 					option |= DIR;
+					break;
+				case 'i' :
+					option |= FIELD;
 					break;
 				default :
 					printf("Invalid option : %c\n", c );
