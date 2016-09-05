@@ -5,9 +5,16 @@
 
 main()	/* convert declaration to words */
 {
+	int i;
 	while( gettoken() != EOF )	/* 1st token on line */
 	{
-		strcpy( datatype, token );	/* is the datatype */
+		if( isexist( dtype, token ) )
+			strcpy( datatype, token );	/* is the datatype */
+		else
+		{
+			printf("Data type must be 1st word.\n");
+			return 0;
+		}
 		out[0] = '\0';
 		dcl();
 		if( tokentype != '\n' )
@@ -27,7 +34,7 @@ void dcl( void )
 
 	dirdcl();
 	while( ns-- > 0 )
-		strcat( out, " pointer to " );
+		strcat( out, " pointer to" );
 }
 
 /* dirdcl : parse a direct declarator */
