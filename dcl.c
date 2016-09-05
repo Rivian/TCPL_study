@@ -1,3 +1,22 @@
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+#include "dcl.h"
+
+main()	/* convert declaration to words */
+{
+	while( gettoken() != EOF )	/* 1st token on line */
+	{
+		strcpy( datatype, token );	/* is the datatype */
+		out[0] = '\0';
+		dcl();
+		if( tokentype != '\n' )
+			printf("syntax error\n");
+		printf("%s : %s %s\n", name, out, datatype );
+	}
+	return 0;
+}
+
 /* dcl : parse a declarator */
 void dcl( void )
 {
