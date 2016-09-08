@@ -8,7 +8,7 @@ main()	/* convert declaration to words */
 	int i;
 	while( gettoken() != EOF )	/* 1st token on line */
 	{
-		if( isexist( dtype, token ) )
+		if( isdtype( token ) )
 			strcpy( datatype, token );	/* is the datatype */
 		else
 		{

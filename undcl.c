@@ -3,6 +3,8 @@
 #include <ctype.h>
 #include "dcl.h"
 
+int nexttoken( void );
+
 /* undcl : convert word description to declaration */
 main()
 {
@@ -17,7 +19,11 @@ main()
 				strcat( out, token );
 			else if( type == '*' )
 			{
-				sprintf( temp, "(*%s)", out );
+				if( (type = nexttoken()) == PARENS ||
+					type == BRACKETS )
+					sprintf( temp, "(*%s)", out );
+				else
+					sprintf( temp, "*%s", out );
 				strcpy( out, temp );
 			}
 			else if( type == NAME )
@@ -32,4 +38,14 @@ main()
 	}
 
 	return 0;
+}
+
+int nexttoken( void )
+{
+	int type;
+	extern int prevtoken;
+
+	type = gettoken();
+	prevtoken = YES;
+	return type;
 }
