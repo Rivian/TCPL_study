@@ -5,6 +5,15 @@
 
 #define MAXWORD 100
 
+struct tnode		/* the tree node */
+{
+	char *word;	/* pointer to text */
+	int count;	/* number of occurrence */
+	struct tnode *left;	/* left child node */
+	struct tnode *right;	/* right child node */
+};
+	
+
 struct tnode *addtree( struct tnode *, char * );
 void treeprint( struct tnode * );
 int getword( char *, int );
